@@ -69,7 +69,6 @@ export interface VideoListResponse {
 	};
 }
 
-
 export interface SearchVideoListResponse {
 	kind: string;
 	etag: string;
@@ -80,16 +79,16 @@ export interface SearchVideoListResponse {
 	};
 }
 
-export interface SearchVideoResult{
-  kind: string,
-  etag: string,
-  id: { kind: string, videoId: string },
-  snippet: {
-    publishedAt: string,
-    channelId: string,
-    title: string,
-    description: string,
-    thumbnails: {
+export interface SearchVideoResult {
+	kind: string;
+	etag: string;
+	id: { kind: string; videoId: string };
+	snippet: {
+		publishedAt: string;
+		channelId: string;
+		title: string;
+		description: string;
+		thumbnails: {
 			default: {
 				url: string;
 				width: number;
@@ -106,8 +105,15 @@ export interface SearchVideoResult{
 				height: number;
 			};
 		};
-    channelTitle: string;
-    liveBroadcastContent: string;
-    publishTime: string;
-  }
+		channelTitle: string;
+		liveBroadcastContent: string;
+		publishTime: string;
+	};
+}
+
+export interface PlaylistVideo {
+	order: number;
+	videoId: string;
+	title: string;
+	thumbnail: string;
 }
