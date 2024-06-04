@@ -31,7 +31,7 @@ export default async function Page({
 	if (!video) return <>Not available</>;
 
 	return (
-		<main className="pt-16 w-full min-h-screen flex flex-col md:px-8 lg:pl-14 lg:px-6 lg:flex-row lg:gap-x-6 xl:px-16 2xl:px-24">
+		<main className="pt-16 pb-16 w-full min-h-screen flex flex-col md:px-8 lg:pl-14 lg:px-6 lg:flex-row lg:gap-x-6 xl:px-16 2xl:px-24">
 			{/* first column */}
 			<div className="min-h-screen lg:w-4/5">
 				{/* video */}
