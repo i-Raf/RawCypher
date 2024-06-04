@@ -24,8 +24,10 @@ export const PlaylistProvider = ({
 
 	useEffect(() => {
 		let savedPlaylist = getFromLocalStorage("playlist");
+		if (savedPlaylist) {
+			setPlaylist(savedPlaylist);
+		}
 		setIsLoading(false);
-		setPlaylist(savedPlaylist);
 	}, []);
 
 	return (
