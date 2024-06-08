@@ -112,8 +112,12 @@ export interface SearchVideoResult {
 }
 
 export interface PlaylistVideo {
-	order: number;
 	videoId: string;
 	title: string;
 	thumbnail: string;
+}
+
+export interface IPlaylist {
+	name: string;
+	playlist: PlaylistVideo[];
 }
