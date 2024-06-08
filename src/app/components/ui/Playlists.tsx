@@ -22,9 +22,13 @@ export default function Playlists() {
 				playlists.map((playlist) => (
 					<Link
 						key={playlist.name}
-						href={`/video/${
-							playlist.playlist.length > 0 && playlist.playlist[0].videoId
-						}?list=${encodeURIComponent(playlist.name)}`}
+						href={
+							playlist.playlist.length > 0
+								? `/video/${
+										playlist.playlist[0].videoId
+								  }?list=${encodeURIComponent(playlist.name)}`
+								: "/playlists"
+						}
 						className="relative"
 					>
 						<div
@@ -51,7 +55,7 @@ export default function Playlists() {
 					</Link>
 				))
 			) : (
-				<p>There are no Playlists yet!</p>
+				<p className="text-white">There are no Playlists yet!</p>
 			)}
 		</div>
 	);

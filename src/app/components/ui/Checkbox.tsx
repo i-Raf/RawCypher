@@ -49,10 +49,12 @@ export default function Checkbox({
 					if (e.target.checked) {
 						// add video to playlist
 						addVideoToPlaylist(label);
+						alert("Video added to playlist");
 						setDefaultCheck(true);
 					} else {
 						// remove video from playlist
 						removeVideoFromPlaylist(label, videoId);
+						alert("Video removed from playlist");
 						setDefaultCheck(false);
 					}
 				}}
