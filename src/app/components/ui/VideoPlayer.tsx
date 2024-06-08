@@ -1,12 +1,14 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import YouTube, { YouTubeProps } from "react-youtube";
+
 import { IPlaylist } from "@/app/types";
 import { getFromLocalStorage } from "@/app/utils";
-import { useSearchParams } from "next/navigation";
 // import { useRewardContext } from "@/app/context/RewardProvider";
 // import { usePlaylistContext } from "@/app/context/PlaylistProvider";
-import { useEffect, useState } from "react";
-import YouTube, { YouTubeProps } from "react-youtube";
 
 interface VideoPlayerProps {
 	videoId: string;
@@ -20,11 +22,37 @@ const opts: YouTubeProps["opts"] = {
 };
 
 export default function VideoPlayer({ videoId }: VideoPlayerProps) {
+	const router = useRouter();
 	const searchParams = useSearchParams();
 	const playlistName = searchParams.get("list");
+	const playlistVideoIndex = Number(searchParams.get("index"));
+	const savedPlaylists: IPlaylist[] = getFromLocalStorage("playlists");
 	// const { setReward } = useRewardContext();
 	// const { playlist } = usePlaylistContext();
 	const [started, setStarted] = useState(false);
+
+	function goToNextVideo() {
+		// auto play feature
+
+		const selectedPlaylist = savedPlaylists.find(
+			(p) => p.name === playlistName
+		)?.playlist;
+
+		if (selectedPlaylist) {
+			// check that we are not at the end of the playlist
+			if (playlistVideoIndex !== selectedPlaylist.length) {
+				const nextVideosId =
+					selectedPlaylist[1 - playlistVideoIndex + 1].videoId;
+
+				router.push(
+					`/video/${nextVideosId}?list=${playlistName}&index=${
+						Number(playlistVideoIndex) + 1
+					}`,
+					{ scroll: false }
+				);
+			}
+		}
+	}
 
 	// clear rewards on first video load
 	// useEffect(() => {
@@ -51,10 +79,9 @@ export default function VideoPlayer({ videoId }: VideoPlayerProps) {
 			}}
 			onPause={() => setStarted(false)}
 			onEnd={() => {
-				// auto play feature
-				// make sure we are on a playlist by checking if we have a playlist name
+				// having a playlist name on URL query means we are on a playlist
 				if (playlistName) {
-					// find current video index, then redirect to next video's index
+					goToNextVideo();
 				}
 				setStarted(false);
 			}}

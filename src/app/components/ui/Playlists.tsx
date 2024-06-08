@@ -26,7 +26,7 @@ export default function Playlists() {
 							playlist.playlist.length > 0
 								? `/video/${
 										playlist.playlist[0].videoId
-								  }?list=${encodeURIComponent(playlist.name)}`
+								  }?list=${encodeURIComponent(playlist.name)}&index=1`
 								: "/playlists"
 						}
 						className="relative"

@@ -38,14 +38,16 @@ export default function Playlist() {
 						{isLoading ? (
 							<p className="text-white text-sm">Loading...</p>
 						) : (
-							playlist.map((video) => (
+							playlist.map((video, index) => (
 								<div
 									key={video.videoId}
 									className="flex w-full gap-x-4 items-center"
 								>
 									<Link
 										title={video.title}
-										href={`/video/${video.videoId}?list=${playlistName}`}
+										href={`/video/${video.videoId}?list=${playlistName}&index=${
+											index + 1
+										}`}
 										className="flex w-full gap-x-2"
 									>
 										{/* thumbnail */}

@@ -32,6 +32,7 @@ export default function AddToPlaylistModal({ video, closeModal }: Props) {
 			"playlists",
 			JSON.stringify([...playlists, { name: playlistName, playlist: [video] }])
 		);
+		alert("Playlist created and video added");
 
 		closeModal();
 	}
