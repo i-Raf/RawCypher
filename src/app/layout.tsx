@@ -20,7 +20,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" className="w-full bg-zinc-950">
-			<body className={`w-full ${inter.className} flex flex-col items-center`}>
+			<body
+				className={`relative w-full ${inter.className} flex flex-col items-center`}
+			>
 				{/* <RewardProvider> */}
 				<Header />
 

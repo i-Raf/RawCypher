@@ -6,13 +6,33 @@ import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { PlaylistVideo, IPlaylist } from "@/app/types";
 import { getFromLocalStorage } from "@/app/utils";
-import { OptionsIcon } from "../icons/OptionsIcon";
+import { CloseIcon } from "../icons";
 
 export default function Playlist() {
 	const searchParams = useSearchParams();
 	const playlistName = searchParams.get("list");
 	const [playlist, setPlaylist] = useState<PlaylistVideo[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
+
+	function removeFromPlaylist(videoId: string, playlistName: string) {
+		// update ui
+		const updatedPlaylist = playlist.filter(
+			(video) => video.videoId !== videoId
+		);
+		setPlaylist(updatedPlaylist);
+
+		// update local storage
+		const savedPlaylists: IPlaylist[] = getFromLocalStorage("playlists");
+		if (savedPlaylists) {
+			let updatedPlaylists = savedPlaylists.map((p) => {
+				if (p.name === playlistName) {
+					return { name: playlistName, playlist: updatedPlaylist };
+				}
+				return p;
+			});
+			localStorage.setItem("playlists", JSON.stringify(updatedPlaylists));
+		}
+	}
 
 	useEffect(() => {
 		const savedPlaylists: IPlaylist[] = getFromLocalStorage("playlists");
@@ -41,7 +61,7 @@ export default function Playlist() {
 							playlist.map((video, index) => (
 								<div
 									key={video.videoId}
-									className="flex w-full gap-x-4 items-center"
+									className="relative flex w-full gap-x-4 items-center"
 								>
 									<Link
 										title={video.title}
@@ -67,11 +87,13 @@ export default function Playlist() {
 									</Link>
 
 									<button
-										onClick={() => console.log("delete video")}
+										onClick={() =>
+											removeFromPlaylist(video.videoId, playlistName)
+										}
 										className="w-fit h-fit"
 										title="remove from playlist"
 									>
-										<OptionsIcon />
+										<CloseIcon width="20px" height="20px" color="white" />
 									</button>
 								</div>
 							))
