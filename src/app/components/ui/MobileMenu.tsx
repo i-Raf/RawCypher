@@ -25,13 +25,13 @@ export default function MobileMenu({ closeMenu }: MobileMenuProps) {
 			></div>
 
 			<div
-				className="fixed left-0 top-0 h-screen py-4 px-2 w-2/4 z-40 bg-black md:w-56"
+				className="fixed left-0 top-0 pt-20 py-4 px-2 h-screen w-2/4 z-40 bg-black md:w-56"
 				onClick={closeMenu}
 			>
 				<ul className="pb-2 w-full flex flex-col gap-y-2 text-zinc-200 border-b border-zinc-700 overflow-hidden">
 					<li className="pl-2 py-2 w-[13.2rem] hover:bg-zinc-800 rounded-md">
 						<Link href={"/"} className="w-full flex items-center gap-x-6">
-							<HomeIcon />
+							<HomeIcon width="26px" height="26px" color="white" />
 							<p>Home</p>
 						</Link>
 					</li>
@@ -41,7 +41,7 @@ export default function MobileMenu({ closeMenu }: MobileMenuProps) {
 							href={"/playlists"}
 							className="w-full flex items-center gap-x-6"
 						>
-							<PlaylistIcon />
+							<PlaylistIcon width="26px" height="26px" color="white" />
 							<p>Playlists</p>
 						</Link>
 					</li>

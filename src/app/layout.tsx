@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 // import { RewardProvider } from "./context/RewardProvider";
+import { SideBarProvider } from "./context/SideBarProvider";
 import Header from "./components/ui/Header";
 import SideBar from "./components/ui/SideBar";
 
@@ -20,17 +21,17 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" className="w-full bg-zinc-950">
-			<body
-				className={`relative w-full ${inter.className} flex flex-col items-center`}
-			>
-				{/* <RewardProvider> */}
-				<Header />
+			<body className={`relative w-full ${inter.className} flex flex-col`}>
+				<SideBarProvider>
+					{/* <RewardProvider> */}
+					<Header />
 
-				<div className="w-full flex">
-					<SideBar />
-					{children}
-				</div>
-				{/* </RewardProvider> */}
+					<div className="w-full flex">
+						<SideBar />
+						{children}
+					</div>
+					{/* </RewardProvider> */}
+				</SideBarProvider>
 			</body>
 		</html>
 	);

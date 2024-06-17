@@ -1,97 +1,75 @@
-import Link from "next/link";
+"use client";
 
-import {
-	HomeIcon,
-	AboutIcon,
-	ContactIcon,
-	DonateIcon,
-	HistoryIcon,
-	WalletIcon,
-	SettingsIcon,
-} from "../icons";
-import { PlaylistIcon } from "../icons/PlaylistIcon";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+import { useSideBarContext } from "@/app/context/SideBarProvider";
+
+import { HomeIcon, PlaylistIcon } from "../icons";
+
+const sideBarLinks = [
+	{
+		title: "Home",
+		url: "/",
+		icon: <HomeIcon height="24px" width="24px" color="white" />,
+	},
+	{
+		title: "Playlists",
+		url: "/playlists",
+		icon: <PlaylistIcon height="24px" width="24px" color="white" />,
+	},
+];
 
 export default function SideBar() {
+	const pathname = usePathname();
+	const isVideoPage = pathname.includes("/video");
+	const { isSideBarOpen, setIsSideBarOpen } = useSideBarContext();
+
 	return (
 		<>
 			<nav
 				id="sidebar"
-				className="hidden fixed left-0 top-0 py-4 px-2 h-screen w-2/4 z-40 bg-black lg:block lg:w-14"
+				className={`hidden lg:pt-16 lg:px-4 lg:block ${
+					isVideoPage ? "lg:fixed " : "lg:sticky "
+				} lg:left-0 lg:top-0 lg:h-screen lg:bg-zinc-950 lg:z-40`}
 			>
 				<div id="sidebar-menu">
-					<ul className="pb-2 w-full flex flex-col gap-y-2 text-zinc-200 border-b border-zinc-700 overflow-hidden">
-						<li className="pl-2 py-2 w-[13.2rem] hover:bg-zinc-800 rounded-md">
-							<Link href={"/"} className="w-full flex items-center gap-x-6">
-								<HomeIcon />
-								<p>Home</p>
-							</Link>
-						</li>
-
-						<li className="pl-2 py-2 w-[13.2rem] hover:bg-zinc-800 rounded-md">
-							<Link
-								href={"/playlists"}
-								className="w-full flex  items-center gap-x-6"
+					<ul className="pb-2 w-full flex flex-col gap-y-2 text-zinc-200 overflow-hidden">
+						{sideBarLinks.map((link) => (
+							<li
+								onClick={() => setIsSideBarOpen(false)}
+								key={link.title}
+								className={`p-2 flex ${
+									isSideBarOpen
+										? "w-[12rem] justify-start items-start"
+										: "w-16 items-center justify-center"
+								} hover:bg-zinc-800 rounded-md`}
 							>
-								<PlaylistIcon />
-								<p>Playlists</p>
-							</Link>
-						</li>
-
-						<li className="pl-2 py-2 w-[13.2rem] hover:bg-zinc-800 rounded-md">
-							<Link href={"/"} className="w-full flex  items-center gap-x-6">
-								<HistoryIcon />
-								<p>History</p>
-							</Link>
-						</li>
-
-						<li className="pl-2 py-2 w-[13.2rem] hover:bg-zinc-800 rounded-md">
-							<Link href={"/"} className="w-full flex items-center gap-x-6">
-								<WalletIcon />
-								<p>Wallet</p>
-							</Link>
-						</li>
-					</ul>
-
-					<ul className="py-2 w-full flex flex-col gap-y-2 text-zinc-200 border-b border-zinc-700 overflow-hidden">
-						<li className="pl-2 py-2 w-[13.2rem] hover:bg-zinc-800 rounded-md">
-							<Link href={"/"} className="w-full flex items-center gap-x-6">
-								<SettingsIcon />
-								<p>Settings</p>
-							</Link>
-						</li>
-
-						<li className="pl-2 py-2 w-[13.2rem] hover:bg-zinc-800 rounded-md">
-							<Link href={"/"} className="w-full flex  items-center gap-x-6">
-								<ContactIcon />
-								<p>Contact us</p>
-							</Link>
-						</li>
-					</ul>
-
-					{/* Other links */}
-					<ul className="py-2 w-full flex flex-col gap-y-2 text-zinc-200 border-b border-zinc-700 overflow-hidden">
-						<li className="pl-2 py-2 w-[13.2rem] hover:bg-zinc-800 rounded-md">
-							<Link href={"/"} className="w-full flex items-center gap-x-6">
-								<DonateIcon />
-								<p>Donate</p>
-							</Link>
-						</li>
-
-						<li className="pl-2 py-2 w-[13.2rem] hover:bg-zinc-800 rounded-md">
-							<Link href={"/"} className="w-full flex items-center gap-x-6">
-								<AboutIcon />
-								<p>About</p>
-							</Link>
-						</li>
+								<Link
+									href={link.url}
+									className={`w-fit flex items-center justify-center ${
+										isSideBarOpen ? "flex gap-x-4" : "flex-col"
+									} `}
+								>
+									{link.icon}
+									<p className={`${isSideBarOpen ? "text-sm" : "text-xs"}`}>
+										{link.title}
+									</p>
+								</Link>
+							</li>
+						))}
 					</ul>
 				</div>
 			</nav>
 
 			{/* mask */}
-			<div
-				id="sidebar-mask"
-				className={`hidden fixed left-0 top-0 h-screen w-full bg-black bg-opacity-40 z-30`}
-			></div>
+			{isVideoPage && isSideBarOpen && (
+				<div
+					onClick={() => setIsSideBarOpen(false)}
+					id="sidebar-mask"
+					className={`fixed left-0 top-0 h-screen w-full bg-black bg-opacity-40 z-30`}
+				></div>
+			)}
 		</>
 	);
 }
